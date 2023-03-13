@@ -124,8 +124,11 @@ export default {
   flex-wrap: wrap;
   gap: 24px;
 }
-.stream {
-  border-radius: 4px;
+.stream, .game {
+  transition: transform 0.2s linear;
+}
+.stream:hover, .game:hover {
+  transform: scaleY(1.01);
 }
 .stream-preview {
   background-color: $colGreen;
