@@ -11,6 +11,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/styles/variables";
+
 .home-catalog {
   height: 240px;
   background-color: $colGray;

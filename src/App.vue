@@ -2,15 +2,16 @@
   <div id="app">
     <nav class="app-header">
       <div>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/game/:ridvan">Game</router-link>
+        <router-link to="/">V-Stream</router-link>
+<!--        <router-link to="/game/:ridvan">Game</router-link>-->
       </div>
 
       <span>
         {{ userName }}
       </span>
     </nav>
-    <router-view/>
+
+    <router-view class="app-content" />
   </div>
 </template>
 
@@ -28,15 +29,25 @@ export default {
 
 <style lang="scss">
 @import "./styles/variables";
+
 #app {
   color: $colWhite;
 }
-
 .app-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: $colBlack;
+  height: $headerHeight !important;
   display: flex;
   justify-content: space-between;
-  padding: 12px 24px;
-  margin-bottom: 24px;
-  border-bottom: solid 1px $colBorder;
+  align-items: center;
+  //padding: 0 24px;
+  //border-bottom: solid 1px $colBorder;
+  box-shadow: -3px 6px 4px -4px $colBlack;
+  z-index: 1000;
+}
+.app-content {
+  margin-top: $headerHeight + 1;
 }
 </style>
