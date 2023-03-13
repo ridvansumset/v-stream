@@ -53,12 +53,26 @@
         </div>
       </div>
     </div>
+
+    <div v-if="username" class="active-stream">
+      <div class="active-stream-text-container">
+        <p class="active-stream-text" @click="goToGamePage({ name: title, streamer: username })">
+          Continue watching {{ title }} by {{ `@${username}` }}
+        </p>
+
+        <b-icon-x
+          scale="1.6"
+          class="active-stream-close-icon"
+          @click="clearStream"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { HomeCatalog } from '@/components'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   components: {
@@ -90,9 +104,16 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState('streamer', {
+      username: 'username',
+      title: 'title'
+    })
+  },
   methods: {
     ...mapActions('streamer', {
-      viewStream: 'viewStream'
+      viewStream: 'viewStream',
+      clearStream: 'clearStream'
     }),
     hoverStream (stream, hovered) {
       if (hovered) {
@@ -201,5 +222,24 @@ export default {
   padding: 2px 6px;
   margin-right: 4px;
   color: $colWhite;
+}
+.active-stream {
+  position: fixed;
+  bottom: 0;
+  right: 64px;
+  background-color: $colDarkBlue;
+  width: 360px;
+  height: 220px;
+  padding: 16px;
+}
+.active-stream-text-container {
+  display: flex;
+}
+.active-stream-text {
+  font-size: 12px;
+  cursor: pointer;
+}
+.active-stream-close-icon {
+  cursor: pointer;
 }
 </style>

@@ -6,8 +6,11 @@ export const streamer = {
     donatedAmount: 1000
   }),
   actions: {
-    viewStream ({ state, commit }, { username, title }) {
+    viewStream ({ commit }, { username, title }) {
       commit('setStream', { username, title })
+    },
+    clearStream ({ commit }) {
+      commit('setStream', { username: '', title: '' })
     },
     donate ({ state, commit }, { amount }) {
       const total = state.donatedAmount + amount
