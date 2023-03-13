@@ -80,7 +80,7 @@ export default {
     return {
       visible: true,
       inputText: '',
-      chatStreamList: Array(25).fill({ username: 'michaeljackson', text: 'chat text' }),
+      chatStreamList: Array(16).fill({ username: 'michaeljackson', text: 'billie jean, you rock my world, black & white' }),
       // eslint-disable-next-line
       emojiDrawer: ['😀','😃','😄','😁','😆','😅','🤣','😂','🙂','🙃','😉','😊','😇','🥰','😍','🤩','😘','😗','☺️','😚','😙','😋','😛','😜','🤪','😝','🤑','🤗','🤭','🤫','🤔','🤐','🤨','😐️','😑','😶','😏','😒','🙄','😬','🤥','😌','😔','😪','😮‍','💨','🤤','😴','😷','🤒','🤕','🤢','🤮','🤧','🥵','🥶','😶‍','🌫️','🥴','😵‍','💫','😵','🤯','🤠','🥳','😎','🤓','🧐','😕','😟','🙁','☹️','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😤','😡','😠','🤬','😈','👿','💀','☠️','💩','🤡','👹','👺','👻','👽️','👾','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🙈','🙉','🙊','👋','🤚','🖐️','✋','🖖','👌','🤏','✌️','🤞','🤟','🤘','🤙','👈️','👉️','👆️','🖕','👇️','☝️','👍️','👎️','✊','👊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦿','🦵','🦶','👂️','🦻','👃','🧠','🦷','🦴','👀','👁️','👅','👄','💋']
     }
@@ -90,6 +90,13 @@ export default {
       username: 'username',
       userColor: 'userColor'
     })
+  },
+  mounted () {
+    this.scrollToBottomOfChat()
+    setInterval(() => {
+      this.chatStreamList.push({ username: 'lebronjames', text: 'this is basketball' })
+      this.scrollToBottomOfChat()
+    }, 5000)
   },
   methods: {
     toggleChat () {
@@ -108,11 +115,14 @@ export default {
         this.chatStreamList.push({ username: this.username, text: this.inputText })
         this.inputText = ''
 
-        setTimeout(() => {
-          const chatStream = document.getElementById('chat-stream')
-          chatStream.scrollTop = chatStream.scrollHeight
-        }, 10)
+        this.scrollToBottomOfChat()
       }
+    },
+    scrollToBottomOfChat () {
+      setTimeout(() => {
+        const chatStream = document.getElementById('chat-stream')
+        chatStream.scrollTop = chatStream.scrollHeight
+      }, 10)
     }
   }
 }
