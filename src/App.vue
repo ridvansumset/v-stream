@@ -37,14 +37,14 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: $colBlack;
+  background-color: #222;
   height: $headerHeight !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
   //padding: 0 24px;
   //border-bottom: solid 1px $colBorder;
-  box-shadow: -3px 6px 4px -4px $colBlack;
+  box-shadow: -3px 6px 4px -4px #222;
   z-index: 1000;
 }
 .app-content {
