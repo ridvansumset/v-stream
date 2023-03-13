@@ -33,15 +33,16 @@
     </b-modal>
 
     <div>
-      <div class="donated-amount">
-        {{ `$${donatedAmount}` }}
+      <div class="donated-container">
+        <div class="donated-amount">
+          {{ `$${donatedAmount}` }}
+        </div>
+        <button class="button donate-button" @click="modalVisible = true">
+          Donate
+        </button>
       </div>
-    </div>
 
-    <div>
-      <button class="button donate-button" @click="modalVisible = true">
-        Donate
-      </button>
+      <p class="donated-info-text">Donated until now</p>
     </div>
   </div>
 </template>
@@ -79,6 +80,14 @@ export default {
 
 .donation-container {
   display: flex;
+}
+.donated-container {
+  display: flex;
+}
+.donated-info-text {
+  font-size: 10px;
+  color: $colGray;
+  margin-top: 4px;
 }
 .donated-amount {
   border: solid 1px $colGray;

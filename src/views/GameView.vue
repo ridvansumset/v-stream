@@ -82,6 +82,9 @@ export default {
   justify-content: space-between;
   color: $colWhite;
   padding: 12px 24px;
+  @media all and (max-width: $breakpointSM) {
+    display: block;
+  }
 }
 .stream-info {
   display: flex;
