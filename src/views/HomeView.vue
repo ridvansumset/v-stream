@@ -12,7 +12,7 @@
           <div
             class="stream-preview"
             v-b-hover="(hovered) => hoverStream(stream, hovered)"
-            @click="goToGamePage(stream.streamer)"
+            @click="goToGamePage(stream)"
           >
             <span>{{stream.previewCount}}</span>
           </div>
@@ -60,6 +60,7 @@
 
 <script>
 import { HomeCatalog } from '@/components'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -68,37 +69,41 @@ export default {
   data () {
     return {
       streams: [
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
-        { name: 'Stream name', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] }
+        { name: 'Korku oyunu gecesi', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
+        { name: 'Rocket League !drop', previewCount: 1, streamer: 'tenekekafalar', category: 'Just Chatting', tags: ['turkish', 'game'] },
+        { name: 'Korku oyunu gecesi', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
+        { name: 'Rocket League !drop', previewCount: 1, streamer: 'tenekekafalar', category: 'Just Chatting', tags: ['turkish', 'game'] },
+        { name: 'Korku oyunu gecesi', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
+        { name: 'Rocket League !drop', previewCount: 1, streamer: 'tenekekafalar', category: 'Just Chatting', tags: ['turkish', 'game'] },
+        { name: 'Korku oyunu gecesi', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] },
+        { name: 'Rocket League !drop', previewCount: 1, streamer: 'tenekekafalar', category: 'Just Chatting', tags: ['turkish', 'game'] },
+        { name: 'Korku oyunu gecesi', previewCount: 1, streamer: 'Jahrein', category: 'Just Chatting', tags: ['turkish', 'fun'] }
       ],
       games: [
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] },
-        { name: 'Game name', viewerCount: '128K', tags: ['shooter', 'fps'] }
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] },
+        { name: 'PUBG: Battlegrounds', viewerCount: '128K', tags: ['shooter', 'fps'] }
       ]
     }
   },
   methods: {
+    ...mapActions('streamer', {
+      viewStream: 'viewStream'
+    }),
     hoverStream (stream, hovered) {
       if (hovered) {
         stream.previewCount += 1
       }
     },
-    goToGamePage (streamer) {
-      this.$router.push({ name: 'game', params: { streamerName: streamer } })
+    goToGamePage (stream) {
+      this.viewStream({ username: stream.streamer, title: stream.name })
+      this.$router.push({ name: 'game', params: { streamerName: stream.streamer } })
     }
   }
 }
@@ -125,6 +130,7 @@ export default {
   gap: 24px;
 }
 .stream, .game {
+  max-width: 300px !important;
   transition: transform 0.2s linear;
 }
 .stream:hover, .game:hover {

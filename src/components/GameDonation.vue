@@ -11,7 +11,7 @@
     >
       <div class="donate-modal">
         <h2 class="donate-modal-header">
-          Adjust your donation amount below!
+          Adjust your donation amount
         </h2>
 
         <input

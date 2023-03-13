@@ -1,18 +1,24 @@
 export const streamer = {
   namespaced: true,
   state: () => ({
-    username: 'tenekekafalar',
-    title: 'Rocket League\'de Elo Kasmaca !drop !settings',
+    username: '',
+    title: '',
     donatedAmount: 1000
   }),
   actions: {
+    viewStream ({ state, commit }, { username, title }) {
+      commit('setStream', { username, title })
+    },
     donate ({ state, commit }, { amount }) {
-      console.log('a', amount, state.donatedAmount)
       const total = state.donatedAmount + amount
       commit('setDonatedAmount', total)
     }
   },
   mutations: {
+    setStream (state, value) {
+      state.username = value.username
+      state.title = value.title
+    },
     setDonatedAmount (state, value) {
       state.donatedAmount = value
     }
