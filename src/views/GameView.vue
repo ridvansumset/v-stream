@@ -1,10 +1,15 @@
 <template>
   <div class="game">
     <main class="main-content">
-      <div class="video-stream"></div>
+      <div
+        class="video-stream"
+        :class="chatVisible ? '' : 'video-stream-full-width'"
+      />
     </main>
 
-    <game-chat></game-chat>
+    <game-chat
+      @toggle="(v) => chatVisible = v"
+    />
   </div>
 </template>
 
@@ -40,5 +45,8 @@ export default {
   @media all and (max-width: $breakpointSM) {
     width: 70%; // 100% - 30% (chat width is 30% for mobile)
   }
+}
+.video-stream-full-width {
+  width: 100% !important;
 }
 </style>

@@ -1,19 +1,46 @@
 <template>
-  <aside class="game-chat-container">
+  <aside v-if="visible" class="game-chat-container">
     <div class="chat-settings">
-      <div>h</div>
-      <h4>STREAM CHAT</h4>
-      <div>s</div>
+      <b-icon-arrow-bar-right
+        scale="1.2"
+        class="chat-closer"
+        @click="toggleChat"
+      />
+
+      <h4 class="chat-header">
+        STREAM CHAT
+      </h4>
+
+      <span />
     </div>
 
     <div class="chat-stream">
       <div v-for="i in 100" :key="i">asd</div>
     </div>
   </aside>
+
+  <b-icon-arrow-bar-left
+    v-else
+    scale="1.4"
+    class="chat-opener"
+    @click="toggleChat"
+  />
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      visible: true
+    }
+  },
+  methods: {
+    toggleChat () {
+      this.visible = !this.visible
+      this.$emit('toggle', this.visible)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -38,6 +65,24 @@ export default {}
   border-bottom: solid 1px $colBorder;
   & > h4 {
     margin: 0;
+  }
+  @media all and (max-width: $breakpointSM) {
+    padding: 6px 8px;
+  }
+}
+.chat-closer {
+  cursor: pointer;
+}
+.chat-opener {
+  cursor: pointer;
+  position: fixed;
+  top: $headerHeight + 8;
+  right: 4px;
+}
+.chat-header {
+  font-size: 20px;
+  @media all and (max-width: $breakpointSM) {
+    font-size: 10px;
   }
 }
 .chat-stream {

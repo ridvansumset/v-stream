@@ -32,6 +32,7 @@ export default {
 
 #app {
   color: $colWhite;
+  font-family: Verdana, serif;
 }
 .app-header {
   position: fixed;
@@ -49,5 +50,6 @@ export default {
 }
 .app-content {
   margin-top: $headerHeight + 1;
+  background-color: $colBlack;
 }
 </style>

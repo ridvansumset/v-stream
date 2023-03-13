@@ -1,9 +1,6 @@
 @import "./variables.scss";
 
-*, #app {
-  font-family: Verdana, serif;
-}
-body {
+html, body {
   background-color: $colBlack;
   margin: 0;
 }
