@@ -225,6 +225,11 @@ export default {
   width: 360px;
   height: 220px;
   padding: 16px;
+  @media all and (max-width: $breakpointSM) {
+    right: 10px;
+    width: 240px;
+    height: 140px;
+  }
 }
 .active-stream-text-container {
   display: flex;
