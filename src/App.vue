@@ -2,11 +2,10 @@
   <div id="app">
     <nav class="app-header">
       <div>
-        <router-link to="/">V-Stream</router-link>
-<!--        <router-link to="/game/:ridvan">Game</router-link>-->
+        <router-link to="/" class="app-logo">V-Stream</router-link>
       </div>
 
-      <span>
+      <span class="username">
         {{ userName }}
       </span>
     </nav>
@@ -43,10 +42,19 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  //padding: 0 24px;
-  //border-bottom: solid 1px $colBorder;
   box-shadow: -3px 6px 4px -4px #222;
   z-index: 1000;
+}
+.app-logo {
+  color: $colBlue;
+  margin-left: 24px;
+}
+.app-logo:hover {
+  color: $colDarkBlue;
+  text-decoration: none;
+}
+.username {
+  margin-right: 24px;
 }
 .app-content {
   margin-top: $headerHeight + 1;

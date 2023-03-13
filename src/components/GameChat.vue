@@ -35,7 +35,7 @@
           :value="inputText"
           type="text"
           placeholder="Say something"
-          class="base-input"
+          class="chat-input"
           autocomplete="off"
           @input="setInputText"
         />
@@ -194,7 +194,6 @@ export default {
   &::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 8px;
-    //height: 6px;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 16px;
@@ -210,7 +209,7 @@ export default {
   align-items: center;
   position: relative;
 }
-.base-input {
+.chat-input {
   width: 100% !important;
   background-color: transparent !important;
   border-style: solid;
@@ -224,7 +223,7 @@ export default {
   font-size: 14px;
   line-height: 148%;
 }
-.base-input:focus {
+.chat-input:focus {
   background-color: transparent !important;
 }
 .emoji-icon {

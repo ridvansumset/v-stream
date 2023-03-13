@@ -19,3 +19,10 @@ html, body {
     background-color: $colGray;
   }
 }
+.modal-body {
+  padding: 0 !important;
+}
+.modal-content {
+  border: hidden !important;
+  background-color: transparent !important;
+}

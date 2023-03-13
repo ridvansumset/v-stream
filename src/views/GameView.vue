@@ -1,10 +1,7 @@
 <template>
   <div class="game">
-    <main class="main-content">
-      <div
-        class="video-stream"
-        :class="chatVisible ? '' : 'video-stream-full-width'"
-      >
+    <main class="main-content" :class="chatVisible ? '' : 'main-content-full-width'">
+      <div class="video-stream">
         <h2>VIDEO STREAM</h2>
       </div>
 
@@ -16,16 +13,16 @@
 
           <div class="stream-detail-info">
             <p class="streamer-name">
-              tenekekafalar
+              {{ `@${username}` }}
             </p>
 
             <p class="stream-title">
-              Rocket League'de Elo Kasmaca !drop !settings
+              {{ title }}
             </p>
           </div>
         </div>
 
-        <div class="donation-container"></div>
+        <game-donation />
       </div>
     </main>
 
@@ -36,16 +33,24 @@
 </template>
 
 <script>
-import { GameChat } from '@/components'
+import { GameChat, GameDonation } from '@/components'
+import { mapState } from 'vuex'
 
 export default {
   components: {
-    GameChat
+    GameChat,
+    GameDonation
   },
   data () {
     return {
       chatVisible: true
     }
+  },
+  computed: {
+    ...mapState('streamer', {
+      username: 'username',
+      title: 'title'
+    })
   }
 }
 </script>
@@ -57,21 +62,20 @@ export default {
   min-height: 100vh;
 }
 .main-content {
-  width: 100%;
-  min-height: 100vh;
-}
-.video-stream {
   width: calc(100% - $chatWidth);
-  height: 600px;
-  background-color: gray;
-  display: grid;
-  place-items: center;
+  min-height: 100vh;
   @media all and (max-width: $breakpointSM) {
     width: 70%; // 100% - 30% (chat width is 30% for mobile)
   }
 }
-.video-stream-full-width {
+.main-content-full-width {
   width: 100% !important;
+}
+.video-stream {
+  height: 600px;
+  background-color: gray;
+  display: grid;
+  place-items: center;
 }
 .data-container {
   display: flex;
