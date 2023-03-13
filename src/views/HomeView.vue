@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <home-catalog />
-
     <div class="recommended-container">
       <h2 class="recommended-header">
         Recommended streams
@@ -71,13 +69,9 @@
 </template>
 
 <script>
-import { HomeCatalog } from '@/components'
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  components: {
-    HomeCatalog
-  },
   data () {
     return {
       streams: [
