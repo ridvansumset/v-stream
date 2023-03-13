@@ -4,3 +4,18 @@ html, body {
   background-color: $colBlack;
   margin: 0;
 }
+
+// bootstrap overrides
+.popover-body {
+  background-color: $colBlack;
+  height: 100px;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+      width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background-color: $colGray;
+  }
+}

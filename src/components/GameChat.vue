@@ -16,20 +16,49 @@
       </div>
 
       <div id="chat-stream" class="chat-stream">
-        <div v-for="(el, i) in chatStreamList" :key="i">
-          {{ `${el.username}: ${el.text}` }}
-        </div>
+        <p v-for="(el, i) in chatStreamList" :key="i">
+          <span
+            :style="{ color: username === el.username ? userColor : 'gray' }"
+          >
+            {{ el.username }}
+          </span>:
+          <span>
+            {{ el.text }}
+          </span>
+        </p>
       </div>
     </div>
 
-    <form class="chat-input-form" @submit="(e) => submitText(e, true)">
-      <chat-input
-        id="chat-input"
-        v-model="inputText"
-        placeholder="Say something"
-        left-slot
-        @input="submitText(null, false)"
-      />
+    <form class="chat-input-form" @submit="submitText">
+      <div class="input-wrapper">
+        <input
+          :value="inputText"
+          type="text"
+          placeholder="Say something"
+          class="base-input"
+          autocomplete="off"
+          @input="setInputText"
+        />
+
+        <div class="emoji-icon">
+          <span id="emojis">😬</span>
+        </div>
+      </div>
+
+      <b-popover
+        target="emojis"
+        placement="top"
+        :triggers="['click', 'focus']"
+      >
+        <span
+          v-for="emoji in emojiDrawer"
+          :key="emoji"
+          class="pop-emoji"
+          @click="addEmojiToText(emoji)"
+        >
+          {{ emoji }}
+        </span>
+      </b-popover>
     </form>
   </aside>
 
@@ -42,36 +71,47 @@
 </template>
 
 <script>
-import ChatInput from './ChatInput'
+import { mapState } from 'vuex'
 
 export default {
   components: {
-    ChatInput
   },
   data () {
     return {
       visible: true,
       inputText: '',
-      chatStreamList: Array(25).fill({ username: 'ridvansumset', text: 'chat text' }),
+      chatStreamList: Array(25).fill({ username: 'michaeljackson', text: 'chat text' }),
       // eslint-disable-next-line
       emojiDrawer: ['😀','😃','😄','😁','😆','😅','🤣','😂','🙂','🙃','😉','😊','😇','🥰','😍','🤩','😘','😗','☺️','😚','😙','😋','😛','😜','🤪','😝','🤑','🤗','🤭','🤫','🤔','🤐','🤨','😐️','😑','😶','😏','😒','🙄','😬','🤥','😌','😔','😪','😮‍','💨','🤤','😴','😷','🤒','🤕','🤢','🤮','🤧','🥵','🥶','😶‍','🌫️','🥴','😵‍','💫','😵','🤯','🤠','🥳','😎','🤓','🧐','😕','😟','🙁','☹️','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😤','😡','😠','🤬','😈','👿','💀','☠️','💩','🤡','👹','👺','👻','👽️','👾','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🙈','🙉','🙊','👋','🤚','🖐️','✋','🖖','👌','🤏','✌️','🤞','🤟','🤘','🤙','👈️','👉️','👆️','🖕','👇️','☝️','👍️','👎️','✊','👊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦿','🦵','🦶','👂️','🦻','👃','🧠','🦷','🦴','👀','👁️','👅','👄','💋']
     }
+  },
+  computed: {
+    ...mapState('user', {
+      username: 'username',
+      userColor: 'userColor'
+    })
   },
   methods: {
     toggleChat () {
       this.visible = !this.visible
       this.$emit('toggle', this.visible)
     },
-    async submitText (e, pressedEnter) {
+    setInputText (e) {
+      this.inputText = e.target.value
+    },
+    addEmojiToText (em) {
+      this.inputText += ` ${em}`
+    },
+    submitText (e) {
       if (e) e.preventDefault()
-      if (pressedEnter && this.inputText !== '') {
-        this.chatStreamList.push({ username: 'ridvansumset', text: this.inputText })
+      if (this.inputText !== '') {
+        this.chatStreamList.push({ username: this.username, text: this.inputText })
         this.inputText = ''
 
         setTimeout(() => {
           const chatStream = document.getElementById('chat-stream')
           chatStream.scrollTop = chatStream.scrollHeight
-        }, 100)
+        }, 10)
       }
     }
   }
@@ -130,8 +170,60 @@ export default {
 .chat-stream {
   overflow-y: scroll;
   height: 100%;
+  padding-left: 12px;
+  @media all and (max-width: $breakpointSM) {
+    padding-left: 8px;
+  }
+  & > p {
+    margin-bottom: 0;
+    font-size: 12px;
+    @media all and (max-width: $breakpointSM) {
+      font-size: 8px;
+    }
+  }
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 8px;
+    //height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background-color: $colGray;
+  }
 }
 .chat-input-form {
-
+  padding: 0 8px;
+}
+.input-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.base-input {
+  width: 100% !important;
+  background-color: transparent !important;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  height: 40px;
+  border-color: $colGray;
+  color: $colGray;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 148%;
+}
+.base-input:focus {
+  background-color: transparent !important;
+}
+.emoji-icon {
+  max-width: 24px !important;
+  max-height: 24px !important;
+  position: absolute;
+  right: 16px;
+}
+.pop-emoji {
+  margin: 2px;
 }
 </style>
