@@ -1,5 +1,7 @@
 # v-stream
 
+A video stream platform.
+
 ## Project setup
 ```
 npm install --force
