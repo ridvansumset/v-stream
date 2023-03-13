@@ -19,17 +19,15 @@
 
           <div class="stream-info">
             <div class="stream-pp-container">
-              <router-link :to="{ name: 'game', params: { streamerName: stream.streamer }}" class="no-underline">
-                <img src="@/assets/logo.png" alt="streamer profile photo" width="40" height="40" />
-              </router-link>
+              <img src="@/assets/logo.png" alt="streamer profile photo" width="40" height="40" @click="goToGamePage(stream)" />
             </div>
 
-            <router-link :to="{ name: 'game', params: { streamerName: stream.streamer }}" class="no-underline">
+            <div @click="goToGamePage(stream)">
               <p class="stream-name">{{ stream.name }}</p>
               <p class="stream-streamer">{{ stream.streamer }}</p>
               <p class="stream-category">{{ stream.category }}</p>
               <span v-for="tag in stream.tags" :key="tag" class="stream-tag">{{ tag }}</span>
-            </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -157,6 +155,7 @@ export default {
   border: solid 1px $colBorder;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  cursor: pointer;
 }
 .game-info {
   padding: 8px 12px;
@@ -202,8 +201,5 @@ export default {
   padding: 2px 6px;
   margin-right: 4px;
   color: $colWhite;
-}
-.no-underline, .no-underline:hover {
-  text-decoration: none;
 }
 </style>
