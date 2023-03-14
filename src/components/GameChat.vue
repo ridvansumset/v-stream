@@ -13,6 +13,10 @@
         </h4>
 
         <span />
+
+        <div v-if="chatPaused" class="chat-paused">
+          <span>CHAT PAUSED</span>
+        </div>
       </div>
 
       <div id="chat-stream" class="chat-stream">
@@ -74,11 +78,10 @@
 import { mapState } from 'vuex'
 
 export default {
-  components: {
-  },
   data () {
     return {
       visible: true,
+      chatPaused: false,
       inputText: '',
       chatStreamList: Array(16).fill({ username: 'michaeljackson', text: 'billie jean, you rock my world, black & white' }),
       // eslint-disable-next-line
@@ -92,13 +95,31 @@ export default {
     })
   },
   mounted () {
+    this.startScrollListening()
     this.scrollToBottomOfChat()
     setInterval(() => {
       this.chatStreamList.push({ username: 'lebronjames', text: 'this is basketball' })
-      this.scrollToBottomOfChat()
+      if (!this.chatPaused) {
+        this.scrollToBottomOfChat()
+      }
     }, 5000)
   },
+  beforeDestroy () {
+    this.getChatStream().removeEventListener('scroll', this.listenForScroll)
+  },
   methods: {
+    startScrollListening () {
+      this.getChatStream().addEventListener('scroll', this.listenForScroll)
+    },
+    listenForScroll () {
+      const chatStream = this.getChatStream()
+
+      // if the user scrolled close to the bottom of the chat stream
+      this.chatPaused = !(chatStream.scrollTop > (chatStream.scrollHeight - chatStream.clientHeight - 10))
+    },
+    getChatStream () {
+      return document.getElementById('chat-stream')
+    },
     toggleChat () {
       this.visible = !this.visible
       this.$emit('toggle', this.visible)
@@ -120,7 +141,7 @@ export default {
     },
     scrollToBottomOfChat () {
       setTimeout(() => {
-        const chatStream = document.getElementById('chat-stream')
+        const chatStream = this.getChatStream()
         chatStream.scrollTop = chatStream.scrollHeight
       }, 10)
     }
@@ -147,6 +168,7 @@ export default {
   }
 }
 .chat-settings {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -198,6 +220,20 @@ export default {
   &::-webkit-scrollbar-thumb {
     border-radius: 16px;
     background-color: $colGray;
+  }
+}
+.chat-paused {
+  position: absolute;
+  top: 50px;
+  left: 100px;
+  border: solid 1px $colBorder;
+  border-radius: 4px;
+  background-color: #333;
+  display: grid;
+  place-items: center;
+  padding: 6px 8px;
+  & > span {
+    font-size: 16px;
   }
 }
 .chat-input-form {
