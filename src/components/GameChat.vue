@@ -75,16 +75,12 @@ export default {
       }
     }, 5000)
   },
-  beforeDestroy () {
-    this.getChatStream().removeEventListener('scroll', this.listenForScroll)
-  },
   methods: {
     startScrollListening () {
       this.getChatStream().addEventListener('scroll', this.listenForScroll)
     },
     listenForScroll () {
       const chatStream = this.getChatStream()
-
       // if the user scrolled close to the bottom of the chat stream
       this.chatPaused = !(chatStream.scrollTop > (chatStream.scrollHeight - chatStream.clientHeight - 10))
     },
@@ -104,7 +100,9 @@ export default {
     scrollToBottomOfChat () {
       setTimeout(() => {
         const chatStream = this.getChatStream()
-        chatStream.scrollTop = chatStream.scrollHeight
+        if (chatStream) {
+          chatStream.scrollTop = chatStream.scrollHeight
+        }
       }, 10)
     }
   }
