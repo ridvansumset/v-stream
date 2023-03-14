@@ -90,6 +90,15 @@ export default {
     toggleChat () {
       this.visible = !this.visible
       this.$emit('toggle', this.visible)
+
+      if (this.visible) {
+        setTimeout(() => {
+          this.scrollToBottomOfChat()
+          this.startScrollListening()
+        }, 10)
+      } else {
+        this.chatPaused = false
+      }
     },
     submitText (value) {
       if (value !== '') {
