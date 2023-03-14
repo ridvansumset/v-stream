@@ -5,8 +5,8 @@
         <router-link to="/" class="app-logo">V-Stream</router-link>
       </div>
 
-      <span class="username">
-        {{ userName }}
+      <span class="full-name">
+        {{ fullName }}
       </span>
     </nav>
 
@@ -20,7 +20,7 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters('user', {
-      userName: 'getFullName'
+      fullName: 'getFullName'
     })
   }
 }
@@ -53,7 +53,7 @@ export default {
   color: $colDarkBlue;
   text-decoration: none;
 }
-.username {
+.full-name {
   margin-right: 24px;
 }
 .app-content {
