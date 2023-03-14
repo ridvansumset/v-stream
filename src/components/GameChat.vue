@@ -33,37 +33,9 @@
       </div>
     </div>
 
-    <form class="chat-input-form" @submit="submitText">
-      <div class="input-wrapper">
-        <input
-          :value="inputText"
-          type="text"
-          placeholder="Say something"
-          class="chat-input"
-          autocomplete="off"
-          @input="setInputText"
-        />
-
-        <div class="emoji-icon">
-          <span id="emojis">😬</span>
-        </div>
-      </div>
-
-      <b-popover
-        target="emojis"
-        placement="top"
-        :triggers="['click', 'focus']"
-      >
-        <span
-          v-for="emoji in emojiDrawer"
-          :key="emoji"
-          class="pop-emoji"
-          @click="addEmojiToText(emoji)"
-        >
-          {{ emoji }}
-        </span>
-      </b-popover>
-    </form>
+    <game-chat-input
+      @submit="submitText"
+    />
   </aside>
 
   <b-icon-arrow-bar-left
@@ -76,16 +48,15 @@
 
 <script>
 import { mapState } from 'vuex'
+import GameChatInput from './GameChatInput'
 
 export default {
+  components: { GameChatInput },
   data () {
     return {
       visible: true,
       chatPaused: false,
-      inputText: '',
-      chatStreamList: Array(16).fill({ username: 'michaeljackson', text: 'billie jean, you rock my world, black & white' }),
-      // eslint-disable-next-line
-      emojiDrawer: ['😀','😃','😄','😁','😆','😅','🤣','😂','🙂','🙃','😉','😊','😇','🥰','😍','🤩','😘','😗','☺️','😚','😙','😋','😛','😜','🤪','😝','🤑','🤗','🤭','🤫','🤔','🤐','🤨','😐️','😑','😶','😏','😒','🙄','😬','🤥','😌','😔','😪','😮‍','💨','🤤','😴','😷','🤒','🤕','🤢','🤮','🤧','🥵','🥶','😶‍','🌫️','🥴','😵‍','💫','😵','🤯','🤠','🥳','😎','🤓','🧐','😕','😟','🙁','☹️','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😤','😡','😠','🤬','😈','👿','💀','☠️','💩','🤡','👹','👺','👻','👽️','👾','🤖','😺','😸','😹','😻','😼','😽','🙀','😿','😾','🙈','🙉','🙊','👋','🤚','🖐️','✋','🖖','👌','🤏','✌️','🤞','🤟','🤘','🤙','👈️','👉️','👆️','🖕','👇️','☝️','👍️','👎️','✊','👊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏','✍️','💅','🤳','💪','🦾','🦿','🦵','🦶','👂️','🦻','👃','🧠','🦷','🦴','👀','👁️','👅','👄','💋']
+      chatStreamList: Array(16).fill({ username: 'michaeljackson', text: 'billie jean, you rock my world, black & white' })
     }
   },
   computed: {
@@ -124,18 +95,9 @@ export default {
       this.visible = !this.visible
       this.$emit('toggle', this.visible)
     },
-    setInputText (e) {
-      this.inputText = e.target.value
-    },
-    addEmojiToText (em) {
-      this.inputText += ` ${em}`
-    },
-    submitText (e) {
-      if (e) e.preventDefault()
-      if (this.inputText !== '') {
-        this.chatStreamList.push({ username: this.username, text: this.inputText })
-        this.inputText = ''
-
+    submitText (value) {
+      if (value !== '') {
+        this.chatStreamList.push({ username: this.username, text: value })
         this.scrollToBottomOfChat()
       }
     },
@@ -235,40 +197,5 @@ export default {
   & > span {
     font-size: 16px;
   }
-}
-.chat-input-form {
-  padding: 0 8px;
-}
-.input-wrapper {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-.chat-input {
-  width: 100% !important;
-  background-color: transparent !important;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 4px;
-  height: 40px;
-  border-color: $colGray;
-  color: $colGray;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 148%;
-}
-.chat-input:focus {
-  background-color: transparent !important;
-}
-.emoji-icon {
-  max-width: 24px !important;
-  max-height: 24px !important;
-  position: absolute;
-  right: 16px;
-}
-.pop-emoji {
-  margin: 2px;
 }
 </style>
