@@ -15,7 +15,9 @@
         <span />
 
         <div v-if="chatPaused" class="chat-paused">
-          <span>CHAT PAUSED</span>
+          <span @click="unpauseChat">
+            {{ newMessageCount > 0 ? `${newMessageCount} new message${newMessageCount > 1 ? 's' : ''}` : 'CHAT PAUSED' }}
+          </span>
         </div>
       </div>
 
@@ -56,6 +58,7 @@ export default {
     return {
       visible: true,
       chatPaused: false,
+      newMessageCount: 0,
       chatStreamList: Array(16).fill({ username: 'michaeljackson', text: 'billie jean, you rock my world, black & white' })
     }
   },
@@ -68,10 +71,13 @@ export default {
   mounted () {
     this.startScrollListening()
     this.scrollToBottomOfChat()
+
     setInterval(() => {
       this.chatStreamList.push({ username: 'lebronjames', text: 'this is basketball' })
       if (!this.chatPaused) {
-        this.scrollToBottomOfChat()
+        setTimeout(() => this.scrollToBottomOfChat(), 10)
+      } else {
+        this.newMessageCount++
       }
     }, 5000)
   },
@@ -82,7 +88,12 @@ export default {
     listenForScroll () {
       const chatStream = this.getChatStream()
       // if the user scrolled close to the bottom of the chat stream
-      this.chatPaused = !(chatStream.scrollTop > (chatStream.scrollHeight - chatStream.clientHeight - 10))
+      if (chatStream.scrollTop > (chatStream.scrollHeight - chatStream.clientHeight - 10)) {
+        this.chatPaused = false
+        this.newMessageCount = 0
+      } else {
+        this.chatPaused = true
+      }
     },
     getChatStream () {
       return document.getElementById('chat-stream')
@@ -97,22 +108,25 @@ export default {
           this.startScrollListening()
         }, 10)
       } else {
-        this.chatPaused = false
+        setTimeout(() => this.unpauseChat(), 10)
       }
     },
     submitText (value) {
       if (value !== '') {
         this.chatStreamList.push({ username: this.username, text: value })
-        this.scrollToBottomOfChat()
+        setTimeout(() => this.unpauseChat(), 10)
       }
     },
+    unpauseChat () {
+      this.scrollToBottomOfChat()
+      this.chatPaused = false
+      this.newMessageCount = 0
+    },
     scrollToBottomOfChat () {
-      setTimeout(() => {
-        const chatStream = this.getChatStream()
-        if (chatStream) {
-          chatStream.scrollTop = chatStream.scrollHeight
-        }
-      }, 10)
+      const chatStream = this.getChatStream()
+      if (chatStream) {
+        chatStream.scrollTop = chatStream.scrollHeight
+      }
     }
   }
 }
@@ -203,6 +217,7 @@ export default {
   padding: 6px 8px;
   & > span {
     font-size: 16px;
+    cursor: pointer;
   }
 }
 </style>
